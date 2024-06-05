@@ -6,15 +6,18 @@ let displayFunction = (id, value) => document.getElementById(id).style.display =
 
 const uniqueId = () => Math.random().toString(36).slice(2);
 
+// global object for handle Logged user
 let loggedUser ;
 
-const showUserEmailInNavbar = () => {
-    document.getElementById('show-user-email').textContent = loggedUser.email;
-}
+// print user email in navbar
+const showUserEmailInNavbar = () => document.getElementById('show-user-email').textContent = loggedUser.email
 
 // list of users.
 let users = [{email: "abc@gmail.com", password:"111111", date: new Date(), id: uniqueId(), status: "active"}]
+
+// list of Todo
 let todos = [];
+
 // validate email function
 const validateEmail = (email) => {
     return email.match(
@@ -23,7 +26,7 @@ const validateEmail = (email) => {
   };
 
 
-// funstion login.
+// function login.
 function handleLoginBtn() {
     let email = getValue('email')
     let password = getValue('password')
@@ -40,8 +43,8 @@ function handleLoginBtn() {
         if (user) {
             toast("login Successfully", "success")
             loggedUser = user;
+            // console.log(loggedUser);
 
-            console.log(loggedUser);
             clearInput("email")
             clearInput("password")
 
@@ -87,8 +90,6 @@ function handleRegisterBtn() {
                 clearInput("register-email")
                 clearInput("register-password")
 
-                // document.getElementById('register-card').style.display = "none"
-                // document.getElementById('login-card').style.display = "inline-block";
                 displayFunction("register-card",  "none" );
                 displayFunction("login-card", "inline-block");
             }
@@ -98,8 +99,7 @@ function handleRegisterBtn() {
       
 }
 
-
-
+// crreate new Todo.
 const handleNewTodo = () => {
     event.preventDefault();
 
@@ -107,10 +107,10 @@ const handleNewTodo = () => {
     let description = getValue('input-description')
     let addTodoTime = getValue('input-time-date')
 
+    // console.log(title);
+    // console.log(description);
+    // console.log(addTodoTime);
 
-    console.log(title);
-    console.log(description);
-    console.log(addTodoTime);
     if(title == "" || description == "" || addTodoTime == "") { return toast("All Fields are Required!","warn")}
 
     let todo = {
@@ -124,17 +124,21 @@ const handleNewTodo = () => {
     }
 
     todos.push(todo)
-    console.log(todo);
-    console.log(todos);
+    // console.log(todo);
+    // console.log(todos);
+    toast("Todo Add SuccessFully!", "success");
 
     clearInput("input-title")
     clearInput('input-description')
     clearInput('input-time-date')
 }
 
+// display Table.
 const showTodoTable = () =>{
+    document.getElementById('table-header').innerHTML = "";
     document.getElementById('table-data').innerHTML = "";
-    if(users.length === 0){return alert("Table is empty")}
+
+    if(todos.length === 0){return toast("Table is empty","error")}
     
     let tableHeader = "<tr><th scope='col'>Sr#</th><th scope='col'>Title</th><th scope='col'>Description</th><th scope='col'>Date</th><th scope='col'>status</th></tr>"
     document.getElementById('table-header').innerHTML = tableHeader;
@@ -142,24 +146,32 @@ const showTodoTable = () =>{
     let strength = 0;
     todos.forEach(todo => {
         strength++;
-        document.getElementById('table-data').innerHTML += `<tr><td>${strength}</td><td>${todo.title}</td><td>${(todo.description)}</td><td>${todo.date}</td><td>${todo.status}</td></tr>`
+        document.getElementById('table-data').innerHTML += `<tr><td>${strength}</td><td>${todo.title}</td><td>${(todo.des)}</td><td>${todo.date}</td><td>${todo.status}</td></tr>`
     })
 }
   
-
-
+// delete Todo.
 const handleDeleteTodo = () => {
     let index = parseInt(prompt("Enter No which you want to delete"))
 
+    if (isNaN(index) || index < 1 || index > todos.length) {
+        toast("Todo not found!", "error");
+        return;
+    }
+
     todos=todos.filter((element,i) => i !== index-1)
+    toast("Delete Successfully!","warn")
     showTodoTable();
 }
     
-
-
-
+// update todo.
 const handleUpdateTodo=()=>{
     let index=+prompt("Enter Index To Update")
+
+    if (isNaN(index) || index < 1 || index > todos.length) {
+        toast("Todo not found!", "error");
+        return;
+    }
 
     todos=todos.map((element,i)=>{
         if(i===index-1){
@@ -167,14 +179,15 @@ const handleUpdateTodo=()=>{
         }
         return element
     })
+    toast("Update Successfully!","error");
     showTodoTable();
 }
 
+// clear Button.
 const handleClearBtn = () =>{
-    document.getElementById('table-output').innerHTML = ""
-  }
-
-
+    document.getElementById('table-header').innerHTML = "";
+    document.getElementById('table-data').innerHTML = "";
+}
 
 
 // toastify function

@@ -3,9 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-/* body{
+body{
     background-image: linear-gradient(to bottom right, #09203F , #537895);
-} */
+}
 .container-card{
     height: 100vh;
     width: 80%;
@@ -208,6 +208,13 @@ header, main, footer{
 .header-back , footer {
     background-color: #041f43 !important;
 
+}
+.header-container{
+    position: relative;
+}
+.header-email{
+    position: absolute;
+    right: 40px;
 }
 
 main{

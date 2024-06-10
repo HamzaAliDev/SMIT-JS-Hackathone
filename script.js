@@ -47,7 +47,7 @@ function handleLoginBtn() {
 
             clearInput("email")
             clearInput("password")
-
+            document.querySelector("body").style.background = "none"
             displayFunction("reg-log-section", "none");
             displayFunction("header-home", "block")
             displayFunction("main-home", "block")
@@ -118,7 +118,7 @@ const handleNewTodo = () => {
         des: description,
         date: addTodoTime,
         id: uniqueId(),
-        status: "NotCompleted",
+        status: "InCompleted",
         createdAt: new Date(),
         user_id: loggedUser.id
     }
